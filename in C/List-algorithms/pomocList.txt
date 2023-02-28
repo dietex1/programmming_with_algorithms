@@ -1,0 +1,124 @@
+typedef struct TItem
+{
+    struct TItem   * m_Next;
+    int             m_Val;
+} TITEM;
+
+
+
+TITEM * createItem(int digit, TITEM * next) {
+    TITEM *n = (TITEM *) malloc(sizeof(*n));
+    n->m_Val = digit;
+    n->m_Next = next;
+    return n;
+}
+
+void deleteList(TITEM * l) {
+    while (l) {
+        TITEM *tmp = l->m_Next;
+        free(l);
+        l = tmp;
+    }
+}
+
+void pushBack ( int num , TITEM * l)
+{
+    TITEM * head = l;
+    TITEM * tmp = head;
+    while ( tmp )
+    {
+        if ( tmp->m_Next == NULL)
+        {
+            TITEM * new = (TITEM *)malloc(sizeof(TITEM));
+            tmp ->m_Next = new;
+            new->m_Val = num;
+            new->m_Next = NULL;
+            return;
+        }
+        tmp=tmp->m_Next;
+    }
+}
+
+TITEM * pushFront ( int num , TITEM * l)
+{
+    TITEM * new = (TITEM * )malloc(sizeof(TITEM));
+    new->m_Val = num;
+    new->m_Next = l;
+    return new;
+}
+
+
+void pushBefore ( TITEM * l , int before , int num)
+{
+    TITEM * tmp = l;
+
+    while ( tmp )
+    {
+        if ( tmp->m_Next ->m_Val == before)
+        {
+            TITEM * new = (TITEM * )malloc(sizeof(TITEM));
+            new->m_Val = num;
+            new->m_Next = tmp->m_Next;
+
+            return;
+        }
+        tmp=tmp->m_Next;
+    }
+}
+
+
+
+void pushAfter ( TITEM * l , int after , int num)
+{
+    TITEM * tmp = l;
+    TITEM * res;
+    TITEM * tail;
+    while ( tmp )
+    {
+        if ( tmp ->m_Val == after)
+        {
+            res = createItem(num,NULL);
+            tail = tmp->m_Next ;
+            res->m_Next = tail;
+
+        }
+        tmp = tmp->m_Next;
+    }
+}
+
+
+
+void swap_elements( Tnode * a, Tnode * b)
+{
+    int tmp = a -> m_Val;
+    a -> m_Val = b -> m_Val;
+    b -> m_Val = tmp;
+}
+
+
+
+void sort_list (Tnode * start)
+{
+    Tnode * tail = NULL;
+    Tnode * head;
+    int swap = 1;
+
+    while ( swap == 1){
+        swap = 0;
+        head = start;
+        if (head == tail)
+            swap = 0;
+        while (head != tail)
+        {
+            if (head -> m_Next  == tail)
+                break;
+            if (head -> m_Val > head ->m_Next->m_Val) {
+                swap_elements(head, head->m_Next);
+                swap = 1;
+            }
+            head = head -> m_Next;
+        }
+        tail = head;
+    }
+}
+
